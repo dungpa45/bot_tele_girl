@@ -43,22 +43,25 @@ def girl(bot,update):
     girl = get_girl_img()
     #Get the recipient’s ID
     chat_id = update.message.chat_id
+    mess_id = update.message.message_id
     #it’s time to send the message, which is an image.
-    bot.send_photo(chat_id=chat_id, photo=open(girl,"rb"))
+    bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(girl,"rb"))
 
 def woman(bot,update):
     woman = get_woman_img()
     #Get the recipient’s ID
     chat_id = update.message.chat_id
+    mess_id = update.message.message_id
     #it’s time to send the message, which is an image.
-    bot.send_photo(chat_id=chat_id, photo=open(woman,"rb"))
+    bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(woman,"rb"))
     
 def vsbg(bot,update):
     vsbg = get_vsbg_img()
     #Get the recipient’s ID
     chat_id = update.message.chat_id
+    mess_id = update.message.message_id
     #it’s time to send the message, which is an image.
-    bot.send_photo(chat_id=chat_id, photo=open(vsbg,"rb"))
+    bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(vsbg,"rb"))
 
 def main():
     TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
