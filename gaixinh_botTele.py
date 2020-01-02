@@ -89,13 +89,13 @@ def twice(bot,update):
     bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(twice,"rb"))
 
 def main():
-    TOKEN = "token"
+    TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
     updater = Updater(TOKEN)
     
     dp = updater.dispatcher
     start_handler = CommandHandler('start',start)
     dp.add_handler(CommandHandler('help',help))
-    dp.add_handler(CommandHandler(['girl','gái'],girl))
+    dp.add_handler(CommandHandler(['girl','gái','women'],girl))
     dp.add_handler(CommandHandler(['woman','gái','lady'],woman))
     dp.add_handler(CommandHandler(['vsbg','sexygirl','sexylady'],vsbg))
     dp.add_handler(CommandHandler(['korea','korean','gaihan'],korea))
