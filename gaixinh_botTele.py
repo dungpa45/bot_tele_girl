@@ -5,7 +5,6 @@ import glob, random, os
 reply_keboard = [['/girl','/woman','/vsbg','/korean','/gaitay']]
 markup = ReplyKeyboardMarkup(reply_keboard,one_time_keyboard=True)
 
-CHOOSE = 1
 
 def get_image_local(img_dir):
     data_path = os.path.join(img_dir,'*.jpg')
@@ -46,18 +45,20 @@ def start(bot,update):
 
 def help(bot,update):
     update.message.reply_text('''Note:
-    /gái /girl /lady /woman: Gái xinh chọn lọc
-    /sexygirl /vsbg : Gái xinh quyến rũ
-    /korean /korea /gáihàn: Gái Hàn Xẻng
-    /gaitay /gáitây: Gái Tây
-    Have fun :)''')
+    /gái /girl /lady /woman: _Gái xinh chọn lọc_
+    /sexygirl /vsbg : _Gái xinh quyến rũ_
+    /korean /korea /gáihàn: _Gái Hàn Xẻng_
+    /gaitay /gáitây: _Gái Tây_
+    *Have fun* :) ''',ParseMode.MARKDOWN)
 
 def girl(bot,update):
     girl = get_girl_img()
     chat_id = update.message.chat_id
     mess_id = update.message.message_id
-    bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(girl,"rb"))
-
+    # bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(girl,"rb"))
+    angry = u'\U0001F620'
+    text = "dadad"+angry
+    bot.send_message(chat_id=chat_id,text=text, parse_mode=ParseMode.MARKDOWN)
 def woman(bot,update):
     woman = get_woman_img()
     chat_id = update.message.chat_id
@@ -88,6 +89,14 @@ def twice(bot,update):
     mess_id = update.message.message_id
     bot.send_photo(chat_id=chat_id,reply_to_message_id=mess_id, photo=open(twice,"rb"))
 
+def anh(bot,update):
+    gai = get_girl_img()
+    update.context.message.reply_photo(photo=open(gai,"rb"))
+
+def time(bot, update, job_queue):
+    job_queue.run_repeating(anh, interval=5, context=update)
+    job_queue.run_repeating()
+
 def main():
     TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
     updater = Updater(TOKEN)
@@ -101,6 +110,8 @@ def main():
     dp.add_handler(CommandHandler(['korea','korean','gaihan'],korea))
     dp.add_handler(CommandHandler(['gáitây','gaitay'],gaitay))
     dp.add_handler(CommandHandler(['long','twice'],twice))
+    dp.add_handler(MessageHandler(Filters.text, time, pass_job_queue=True))
+
     dp.add_handler(start_handler)
     #start the bot
     updater.start_polling()
