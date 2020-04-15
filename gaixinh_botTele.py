@@ -2,7 +2,7 @@ from telegram.ext import Updater ,CommandHandler, InlineQueryHandler, MessageHan
 from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent, ReplyKeyboardMarkup
 import glob, random, os
 
-reply_keboard = [['/girl','/woman','/vsbg','/korean','/gaitay']]
+reply_keboard = [['/girl','/woman'],['/vsbg','/sexygirl'],['/korean','/gaitay']]
 markup = ReplyKeyboardMarkup(reply_keboard,one_time_keyboard=True)
 
 
@@ -120,3 +120,4 @@ def main():
     
 if __name__ == '__main__':
     main()
+
