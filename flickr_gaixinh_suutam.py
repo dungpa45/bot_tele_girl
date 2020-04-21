@@ -180,7 +180,7 @@ def anh(bot,update):
 
 def time(bot, update, job_queue):
     interval = 86400
-    job_queue.run_repeating(anh, interval=5, context=update)
+    job_queue.run_repeating(anh, interval=8, context=update)
     print("hi")
     job_queue.run_repeating()
 
@@ -196,7 +196,7 @@ def main():
     dp.add_handler(CommandHandler(['xinh', 'girlxinh', 'gaingon'], multi_vsbg))
     dp.add_handler(CommandHandler(['korea', 'korean', 'gaihan'], korea))
     dp.add_handler(CommandHandler(['gáitây', 'gaitay'], gaitay))
-    # dp.add_handler(MessageHandler(Filters.text, time, pass_job_queue=True))
+    dp.add_handler(MessageHandler(Filters.text, time, pass_job_queue=True))
 
     dp.add_handler(start_handler)
     # start the bot
