@@ -180,7 +180,7 @@ def anh(bot,update):
 
 def time(bot, update, job_queue):
     interval = 86400
-    job_queue.run_repeating(anh, interval=8, context=update)
+    job_queue.run_repeating(anh, interval=interval, context=update)
     print("hi")
     job_queue.run_repeating()
 
