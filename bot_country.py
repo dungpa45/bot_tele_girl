@@ -3,7 +3,7 @@ import re, requests
 import random
 from telegram.ext import Updater ,CommandHandler, InlineQueryHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, InputTextMessageContent, ReplyKeyboardMarkup
-import cairosvg
+#import cairosvg
 
 
 reply_keyboard = [['/quiz','/random_country']]
@@ -17,7 +17,7 @@ def get_flag_image():
         l_flag.append(flag_link)
     svg = random.choice(l_flag)
     print(svg)
-    png = cairosvg.svg2png(url=svg)
+#    png = cairosvg.svg2png(url=svg)
     # print(png)
     return png
 
