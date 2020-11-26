@@ -3,23 +3,32 @@ import re, requests
 import random
 from telegram.ext import Updater ,CommandHandler, InlineQueryHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, InputTextMessageContent, ReplyKeyboardMarkup
-import cairosvg
+import glob, os
+from yaml import Loader
+from yaml import load
 
+with open("/home/dung/OSAM/Build_bot/bot_tele_girl/secret.yaml","r") as yml_file:
+    data = load(yml_file, Loader=Loader)
 
 reply_keyboard = [['/quiz','/random_country']]
 markup = ReplyKeyboardMarkup(reply_keyboard,one_time_keyboard=True)
 
-def get_flag_image():
-    data_all = requests.get("https://restcountries.eu/rest/v2/all").json()
-    l_flag = []
-    for data in data_all:
-        flag_link = data["flag"]
-        l_flag.append(flag_link)
-    svg = random.choice(l_flag)
-    print(svg)
-    png = cairosvg.svg2png(url=svg)
-    # print(png)
-    return png
+region_all = requests.get("https://restcountries.eu/rest/v2/all").json()
+list_name = []
+for i in region_all:
+    name = i["name"]
+    list_name.append(name)
+
+
+def get_flag_image(code3):
+    # data_path = os.path.join('flag','*.png')
+    # files = glob.glob(data_path)
+    img_png = "flag/"+code3+".png"
+    return img_png
+
+def get_name_region():
+    rnd = random.choices(list_name,k=4)
+    return rnd
 
 def icon_flag(code):
     OFFSET = 127462 - ord('A')
@@ -106,17 +115,16 @@ def rep(bot, update):
     input_text = user_text.split(" ")
     print(input_text, type(input_text),input_text[0])
     
-    if input_text[0] == "info":
+    if input_text[0] in ["info","Info"]:
         info_data = "\n\n".join(get_info_by_name(input_text[1]))
         update.message.reply_text(info_data,ParseMode.MARKDOWN)
-    elif input_text[0] == "cap":
+    elif input_text[0] in ["cap","Cap"]:
         name_region = "\n".join(get_country_by_capital(input_text[1]))
         update.message.reply_text(name_region,ParseMode.MARKDOWN)
     else:
         update.message.reply_text("*incorrect syntax*\nYou can type /help for guide",ParseMode.MARKDOWN)
 
 def get_ran_country():
-    region_all = requests.get("https://restcountries.eu/rest/v2/all").json()
     list_inf = get_all_data_country(region_all)
     inf = random.choice(list_inf)
     return inf
@@ -124,15 +132,28 @@ def get_ran_country():
 def random_country(bot, update):
     region = get_ran_country()
     mess_id = update.message.message_id
-    update.message.reply_text(region,reply_to_message_id=mess_id)
+    update.message.reply_text(region,ParseMode.MARKDOWN,reply_to_message_id=mess_id)
 
 def quiz(bot,update):
-    button = [[InlineKeyboardButton("VN",callback_data="Viet Nam"),
-               InlineKeyboardButton("ENG",callback_data="England")
-            ]]
-    image_flag = get_flag_image()
+    a = get_name_region()[0]
+    b = get_name_region()[1]
+    c = get_name_region()[2]
+    d = get_name_region()[3]
+    l=[a,b,c,d]
+    pick1 = random.choice(l)
+    url = "https://restcountries.eu/rest/v2/name/{}".format(pick1)
+    alpha3 = requests.get(url).json()[0]["alpha3Code"].lower()
+    image_flag = get_flag_image(alpha3)
+    button = [[InlineKeyboardButton(a,callback_data="Viet Nam"),
+                InlineKeyboardButton(b,callback_data="England")],
+              [InlineKeyboardButton(c,callback_data="s"),
+                InlineKeyboardButton(d,callback_data="sa")]
+            ]
+    print(image_flag)
     reply_markup = InlineKeyboardMarkup(button)
-    update.message.reply_markup(photo=image_flag,reply_markup=reply_markup)
+    chat_id = update.message.chat_id
+    bot.send_photo(chat_id=chat_id,photo=open(image_flag,'rb'),reply_markup=reply_markup)
+    update.message.reply_text("select:",reply_markup=reply_markup)
     
     
 def button(bot, update):
@@ -142,7 +163,7 @@ def button(bot, update):
 
 
 def main():
-    TOKEN = "1160546832:AAGOlNtpsTmJMho90BHtcnRfjCnaGtMCmRw"
+    TOKEN = data["telegram"]["token_country"]
     updater = Updater(token=TOKEN)
     dp = updater.dispatcher
     start_handler = CommandHandler('start',start)

@@ -4,12 +4,17 @@ import time
 from datetime import datetime, timedelta
 from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from yaml import Loader
+from yaml import load
 
-TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
-USER_ID = "-1001468916747"
+with open("/home/dung/OSAM/Build_bot/bot_tele_girl/secret.yaml","r") as yml_file:
+    data = load(yml_file, Loader=Loader)
+
+TOKEN = data["telegram"]["token_girl"]
+USER_ID = data["telegram"]["user_id"]
 TELEGRAM_URL = "https://api.telegram.org/bot{}/sendMessage".format(TOKEN)
-API_key = '55c03daa40e239aa99126c8d7b6dbcb0'
-API_key_air = "b9f08ac8-f7de-4cda-acbe-69c97d4896c6"
+API_key = data["api_key"]["openweather"]
+API_key_air = data["api_key"]["airvisual"]
 place = "Hanoi"
 link = 'http://api.openweathermap.org/data/2.5/weather?q={}&lang=vi&appid={}'.format(place,API_key)
 contents = requests.get(link)

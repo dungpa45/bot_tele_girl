@@ -7,6 +7,11 @@ from flickrapi import FlickrAPI
 import json
 import requests
 import random
+from yaml import Loader
+from yaml import load
+
+with open("/home/dung/OSAM/Build_bot/bot_tele_girl/secret.yaml","r") as yml_file:
+    data = load(yml_file, Loader=Loader)
 
 reply_keboard = [['/girl', '/woman'],['/vsbg', '/sexygirl'], ['/korean', '/gaitay']]
 markup = ReplyKeyboardMarkup(reply_keboard, one_time_keyboard=True)
@@ -17,7 +22,7 @@ def get_requestURL(user_id, endpoint="getList"):
     user_id = user_id.replace("@", "%40")
     url_upto_apikey = ("https://api.flickr.com/services/rest/?method=flickr.photosets." +
                        endpoint +
-                       "&api_key="+"bf36cf01b548f2bbf200c8d0644c05c7" +
+                       "&api_key="+ data["api_key"]["flickr"] +
                        "&user_id="+user_id +
                        "&format=json&nojsoncallback=1")
     return(url_upto_apikey)
@@ -185,7 +190,7 @@ def time(bot, update, job_queue):
     job_queue.run_repeating()
 
 def main():
-    TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
+    TOKEN = data["telegram"]["token_girl"]
     updater = Updater(TOKEN)
     dp = updater.dispatcher
     start_handler = CommandHandler('start', start)

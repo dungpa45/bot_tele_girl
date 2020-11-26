@@ -1,6 +1,11 @@
 from telegram.ext import Updater ,CommandHandler, InlineQueryHandler, MessageHandler, Filters, ConversationHandler, RegexHandler
 from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent, ReplyKeyboardMarkup
 import glob, random, os
+from yaml import Loader
+from yaml import load
+
+with open("/home/dung/OSAM/Build_bot/bot_tele_girl/secret.yaml","r") as yml_file:
+    data = load(yml_file, Loader=Loader)
 
 reply_keboard = [['/girl','/woman'],['/vsbg','/sexygirl'],['/korean','/gaitay']]
 markup = ReplyKeyboardMarkup(reply_keboard,one_time_keyboard=True)
@@ -98,7 +103,7 @@ def time(bot, update, job_queue):
     job_queue.run_repeating()
 
 def main():
-    TOKEN = "876374897:AAGL2K9-sUb_7mnVso8WddzlYn69_9bIsHg"
+    TOKEN = data["telegram"]["token_girl"]
     updater = Updater(TOKEN)
     
     dp = updater.dispatcher
