@@ -13,7 +13,7 @@ from yaml import load
 with open("/home/dung/OSAM/Build_bot/bot_tele_girl/secret.yaml","r") as yml_file:
     data = load(yml_file, Loader=Loader)
 
-reply_keboard = [['/girl', '/woman'],['/vsbg', '/sexygirl'], ['/korean', '/gaitay']]
+reply_keboard = [['/girl', '/woman'],['/vsbg', '/sexygirl'], ['/gaingon', '/xinh']]
 markup = ReplyKeyboardMarkup(reply_keboard, one_time_keyboard=True)
 
 CHOOSE = 1
@@ -199,8 +199,8 @@ def main():
     dp.add_handler(CommandHandler(["gaidep", "lady", "gaixinh"], multi_girl))
     dp.add_handler(CommandHandler(['vsbg', 'sexygirl', 'sexylady'], vsbg))
     dp.add_handler(CommandHandler(['xinh', 'girlxinh', 'gaingon'], multi_vsbg))
-    dp.add_handler(CommandHandler(['korea', 'korean', 'gaihan'], korea))
-    dp.add_handler(CommandHandler(['gáitây', 'gaitay'], gaitay))
+   # dp.add_handler(CommandHandler(['korea', 'korean', 'gaihan'], korea))
+   # dp.add_handler(CommandHandler(['gáitây', 'gaitay'], gaitay))
     dp.add_handler(MessageHandler(Filters.text, time, pass_job_queue=True))
 
     dp.add_handler(start_handler)
